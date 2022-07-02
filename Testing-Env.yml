@@ -1,0 +1,13 @@
+#docker-compose.yml
+version: '2'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Testing-Env
+    container_name: Testing-Env
+    restart: always
+    environment:
+      USER_ID: 0
+      USER_GID: 0
