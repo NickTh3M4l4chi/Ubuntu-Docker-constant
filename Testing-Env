@@ -1,0 +1,27 @@
+FROM ubuntu:latest
+
+ENV USER_UID 0
+ENV USER_GID 0
+
+#This is not needed if you dont need any of these applications.
+RUN apt-get update -y && apt-get install --fix-missing -f -y \
+python3 \
+python3-pip \
+cron \
+curl \
+nano \
+wget
+
+RUN apt-get clean
+
+#This is why you don't need any extra files to mess arround with. The script itself is flat out stored in this small section of the dockerfile.
+RUN echo '#! /bin/bash' >> /KeepRunning.sh
+RUN echo 'echo "Welcome Back!"' >> /KeepRunning.sh
+RUN echo '$SHELL' >> /KeepRunning.sh
+RUN echo 'sleep infinity' >> /KeepRunning.sh
+
+#Gives permissions for script to be ran
+RUN chmod 755 /KeepRunning.sh
+
+#Sets the the docker container command to the script each time it is ran unless changed by the user.
+CMD /KeepRunning.sh
